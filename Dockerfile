@@ -5,7 +5,7 @@ WORKDIR /workspace
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip python3-dev git ffmpeg cmake build-essential \
-    libgl1 libglib2.0-0 && \
+    libgl1 libglib2.0-0 nvidia-cuda-toolkit && \
     rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /usr/bin/python3 /usr/local/bin/python && \
