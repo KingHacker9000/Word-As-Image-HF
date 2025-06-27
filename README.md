@@ -87,9 +87,11 @@ GPU.
 docker build -t word-as-image .
 ```
 
-2. Run the container to launch the REST API (requires the NVIDIA container runtime):
+2. Run the container to launch the REST API.
+   Make sure the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) is installed.
+   If your Docker setup does not recognize `--gpus`, add `--runtime=nvidia`.
 ```bash
-docker run --gpus all -p 7860:7860 \
+docker run --gpus all --runtime=nvidia -p 7860:7860 \
     word-as-image
 ```
 
