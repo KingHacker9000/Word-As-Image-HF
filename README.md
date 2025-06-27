@@ -75,6 +75,39 @@ python setup.py install
 ```
 
 5. Paste your HuggingFace [access token](https://huggingface.co/settings/tokens) for StableDiffusion in the TOKEN file.
+
+## Docker Usage
+An alternative to the conda based installation is to use the provided
+`Dockerfile`. Building the image installs all dependencies, compiles
+`diffvg` with CUDA support and allows running the project entirely on the
+GPU.
+
+1. Build the image:
+```bash
+docker build -t word-as-image .
+```
+
+2. Run the container to launch the demo (requires the NVIDIA container runtime):
+```bash
+docker run --gpus all -p 7860:7860 \
+    -v $(pwd)/TOKEN:/workspace/TOKEN:ro \
+    word-as-image
+```
+
+To open an interactive shell instead, append `bash` to the command above.
+
+Inside the container you can execute the commands from the next section to
+run experiments.
+
+## Running on HuggingFace Spaces
+The same Docker image can be deployed as a **HuggingFace Space**. Create a new
+Space with `Docker` as the runtime and point it to this repository. The default
+command launches a small [Gradio](https://gradio.app/) demo defined in
+`app.py`.
+
+Store your Stable Diffusion access token as a repository secret named
+`HF_TOKEN` and mount it to the `TOKEN` file during the build or runtime.
+Once deployed the Space will start at port `7860` and expose the simple Web UI.
 ## Run Experiments 
 ```bash
 conda activate word
