@@ -3,7 +3,6 @@ torch==1.12.1+cu113
 torchvision==0.13.1+cu113
 numpy
 scikit-image
-cmake
 ffmpeg
 svgwrite
 svgpathtools
