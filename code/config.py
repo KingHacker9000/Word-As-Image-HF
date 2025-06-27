@@ -29,11 +29,20 @@ def parse_args():
     parser.add_argument('--batch_size', type=int, default=1)
     parser.add_argument('--use_wandb', type=int, default=0)
     parser.add_argument('--wandb_user', type=str, default="none")
+    parser.add_argument('--token', type=str, default=None, help='HF access token')
 
     cfg = edict()
     args = parser.parse_args()
-    with open('TOKEN', 'r') as f:
-        setattr(args, 'token', f.read().replace('\n', ''))
+
+    token = args.token
+    if token is None:
+        token = os.environ.get('HF_TOKEN')
+    if token is None and os.path.exists('TOKEN'):
+        with open('TOKEN', 'r') as f:
+            token = f.read().replace('\n', '')
+    if token is None:
+        raise ValueError('HuggingFace token must be provided')
+    setattr(args, 'token', token)
     cfg.config = args.config
     cfg.experiment = args.experiment
     cfg.seed = args.seed
