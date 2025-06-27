@@ -17,6 +17,10 @@ class GenerationRequest(BaseModel):
 
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"message": "Use POST /generate"}
+
 @app.post("/generate")
 def generate(req: GenerationRequest):
     out_root = Path("space_outputs")

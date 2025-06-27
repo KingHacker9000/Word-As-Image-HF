@@ -74,7 +74,7 @@ git submodule update --init --recursive
 python setup.py install
 ```
 
-5. Paste your HuggingFace [access token](https://huggingface.co/settings/tokens) for StableDiffusion in the TOKEN file.
+5. Provide your HuggingFace [access token](https://huggingface.co/settings/tokens) for Stable Diffusion. It can be stored in a `TOKEN` file, set via the `HF_TOKEN` environment variable, or passed directly to the scripts with `--token`.
 
 ## Docker Usage
 An alternative to the conda based installation is to use the provided
@@ -106,7 +106,7 @@ Space with `Docker` as the runtime and point it to this repository. The default
 command starts a small REST API defined in `app.py`.
 
 Send a POST request to `/generate` with the generation parameters and your
-`token`. The API returns the resulting image as a PNG file. Example with
+`token` (or set the `HF_TOKEN` environment variable). The API returns the resulting image as a PNG file. Example with
 `curl`:
 ```bash
 curl -X POST http://localhost:7860/generate \
