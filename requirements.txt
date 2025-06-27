@@ -23,4 +23,5 @@ transformers
 scipy
 ftfy
 accelerate
-gradio
+fastapi
+uvicorn

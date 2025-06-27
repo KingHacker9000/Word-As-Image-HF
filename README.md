@@ -87,10 +87,9 @@ GPU.
 docker build -t word-as-image .
 ```
 
-2. Run the container to launch the demo (requires the NVIDIA container runtime):
+2. Run the container to launch the REST API (requires the NVIDIA container runtime):
 ```bash
 docker run --gpus all -p 7860:7860 \
-    -v $(pwd)/TOKEN:/workspace/TOKEN:ro \
     word-as-image
 ```
 
@@ -102,12 +101,17 @@ run experiments.
 ## Running on HuggingFace Spaces
 The same Docker image can be deployed as a **HuggingFace Space**. Create a new
 Space with `Docker` as the runtime and point it to this repository. The default
-command launches a small [Gradio](https://gradio.app/) demo defined in
-`app.py`.
+command starts a small REST API defined in `app.py`.
 
-Store your Stable Diffusion access token as a repository secret named
-`HF_TOKEN` and mount it to the `TOKEN` file during the build or runtime.
-Once deployed the Space will start at port `7860` and expose the simple Web UI.
+Send a POST request to `/generate` with the generation parameters and your
+`token`. The API returns the resulting image as a PNG file. Example with
+`curl`:
+```bash
+curl -X POST http://localhost:7860/generate \
+  -H 'Content-Type: application/json' \
+  -d '{"concept":"BUNNY","letter":"Y","font":"KaushanScript-Regular","seed":0,"token":"<HF_TOKEN>"}' \
+  -o result.png
+```
 ## Run Experiments 
 ```bash
 conda activate word
