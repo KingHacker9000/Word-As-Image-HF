@@ -1,11 +1,13 @@
 FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
 
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive \
+    FORCE_CUDA=1 \
+    TORCH_CUDA_ARCH_LIST="7.0;7.5;8.0;8.6"
 WORKDIR /workspace
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip python3-dev git ffmpeg cmake build-essential \
-    libgl1 libglib2.0-0 nvidia-cuda-toolkit && \
+    libgl1 libglib2.0-0 && \
     rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /usr/bin/python3 /usr/local/bin/python && \
