@@ -19,9 +19,9 @@ kornia==0.6.8
 wandb
 diffusers==0.8
 transformers
-huggingface_hub==0.14.1
+huggingface_hub==0.19.4
 scipy
 ftfy
-accelerate
+accelerate==0.22.0
 fastapi
 uvicorn

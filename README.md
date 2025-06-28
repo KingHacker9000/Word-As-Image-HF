@@ -64,13 +64,14 @@ pip install shapely
 3. Install diffusers:
 ```bash
 pip install diffusers==0.8
-pip install transformers scipy ftfy accelerate
+pip install transformers scipy ftfy accelerate==0.22.0 huggingface_hub==0.19.4
 ```
 4. Install diffvg:
 ```bash
 git clone https://github.com/BachiLi/diffvg.git
 cd diffvg
 git submodule update --init --recursive
+sudo apt-get install -y nvidia-cuda-toolkit
 FORCE_CUDA=1 python setup.py install
 ```
 
