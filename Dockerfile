@@ -16,7 +16,7 @@ RUN pip install -r requirements.txt
 
 RUN git clone https://github.com/BachiLi/diffvg.git /tmp/diffvg && \
     cd /tmp/diffvg && git submodule update --init --recursive && \
-    python setup.py install && \
+    FORCE_CUDA=1 python setup.py install && \
     cd /workspace && rm -rf /tmp/diffvg
 
 COPY . /workspace

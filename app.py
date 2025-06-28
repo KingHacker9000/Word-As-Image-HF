@@ -5,8 +5,26 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+import torch
+import pydiffvg
 
 DEFAULT_FONT = "KaushanScript-Regular"
+
+
+def ensure_diffvg_cuda():
+    """Raise RuntimeError if diffvg is not built with CUDA support."""
+    pydiffvg.set_use_gpu(torch.cuda.is_available())
+    try:
+        device = pydiffvg.get_device()
+    except RuntimeError as exc:
+        # get_device raises when diffvg lacks CUDA bindings
+        raise RuntimeError(
+            "diffvg not compiled with CUDA. Please rebuild diffvg with GPU support."
+        ) from exc
+    if device.type != "cuda":
+        raise RuntimeError(
+            "diffvg not compiled with CUDA. Please rebuild diffvg with GPU support."
+        )
 
 class GenerationRequest(BaseModel):
     concept: str
@@ -44,6 +62,7 @@ def generate(req: GenerationRequest):
     return FileResponse(pattern[0], media_type="image/png")
 
 if __name__ == "__main__":
+    ensure_diffvg_cuda()
     import uvicorn
     port = int(os.environ.get("PORT", 7860))
     uvicorn.run(app, host="0.0.0.0", port=port)
