@@ -71,7 +71,6 @@ pip install transformers scipy ftfy accelerate==0.22.0 huggingface_hub==0.19.4
 git clone https://github.com/BachiLi/diffvg.git
 cd diffvg
 git submodule update --init --recursive
-# Ensure the CUDA toolkit is installed so that `nvcc` and `cicc` are available
 sudo apt-get install -y nvidia-cuda-toolkit
 FORCE_CUDA=1 python setup.py install
 ```

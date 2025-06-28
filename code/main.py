@@ -25,6 +25,21 @@ pydiffvg.set_print_timing(False)
 gamma = 1.0
 
 
+def ensure_diffvg_cuda():
+    """Raise RuntimeError if diffvg is not built with CUDA support."""
+    pydiffvg.set_use_gpu(torch.cuda.is_available())
+    try:
+        device = pydiffvg.get_device()
+    except RuntimeError as exc:
+        raise RuntimeError(
+            "diffvg not compiled with CUDA. Please rebuild diffvg with GPU support."
+        ) from exc
+    if device.type != "cuda":
+        raise RuntimeError(
+            "diffvg not compiled with CUDA. Please rebuild diffvg with GPU support."
+        )
+
+
 def init_shapes(svg_path, trainable: Mapping[str, bool]):
 
     svg = f'{svg_path}.svg'
@@ -43,7 +58,8 @@ def init_shapes(svg_path, trainable: Mapping[str, bool]):
 
 
 if __name__ == "__main__":
-    
+
+    ensure_diffvg_cuda()
     cfg = set_config()
 
     # use GPU if available
