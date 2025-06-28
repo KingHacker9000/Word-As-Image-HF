@@ -1,6 +1,8 @@
 FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
 
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive \
+    FORCE_CUDA=1 \
+    TORCH_CUDA_ARCH_LIST="7.0;7.5;8.0;8.6"
 WORKDIR /workspace
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -16,7 +18,7 @@ RUN pip install -r requirements.txt
 
 RUN git clone https://github.com/BachiLi/diffvg.git /tmp/diffvg && \
     cd /tmp/diffvg && git submodule update --init --recursive && \
-    python setup.py install && \
+    FORCE_CUDA=1 python setup.py install && \
     cd /workspace && rm -rf /tmp/diffvg
 
 COPY . /workspace

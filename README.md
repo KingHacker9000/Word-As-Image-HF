@@ -64,14 +64,16 @@ pip install shapely
 3. Install diffusers:
 ```bash
 pip install diffusers==0.8
-pip install transformers scipy ftfy accelerate
+pip install transformers scipy ftfy accelerate==0.22.0 huggingface_hub==0.19.4
 ```
 4. Install diffvg:
 ```bash
 git clone https://github.com/BachiLi/diffvg.git
 cd diffvg
 git submodule update --init --recursive
-python setup.py install
+# Ensure the CUDA toolkit is installed so that `nvcc` and `cicc` are available
+sudo apt-get install -y nvidia-cuda-toolkit
+FORCE_CUDA=1 python setup.py install
 ```
 
 5. Provide your HuggingFace [access token](https://huggingface.co/settings/tokens) for Stable Diffusion. It can be stored in a `TOKEN` file, set via the `HF_TOKEN` environment variable, or passed directly to the scripts with `--token`.
